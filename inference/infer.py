@@ -84,15 +84,15 @@ mmtokenizer = _MMSentencePieceTokenizer("./mm_tokenizer_v0.2_hf/tokenizer.model"
 model = AutoModelForCausalLM.from_pretrained(
     stage1_model, 
     torch_dtype=torch.bfloat16,
-    attn_implementation="flash_attention_2", # To enable flashattn, you have to install flash-attn
-    # device_map="auto",
+    #attn_implementation="flash_attention_2", # To enable flashattn, you have to install flash-attn
+    device_map="cpu",
     )
 # to device, if gpu is available
 model.to(device)
 model.eval()
 
 if torch.__version__ >= "2.0.0":
-    model = torch.compile(model)
+    #model = torch.compile(model)
 
 codectool = CodecManipulator("xcodec", 0, 1)
 codectool_stage2 = CodecManipulator("xcodec", 0, 8)
@@ -262,14 +262,14 @@ print("Stage 2 inference...")
 model_stage2 = AutoModelForCausalLM.from_pretrained(
     stage2_model, 
     torch_dtype=torch.bfloat16,
-    attn_implementation="flash_attention_2",
-    # device_map="auto",
+    #attn_implementation="flash_attention_2",
+    device_map="cpu",
     )
 model_stage2.to(device)
 model_stage2.eval()
 
 if torch.__version__ >= "2.0.0":
-    model_stage2 = torch.compile(model_stage2)
+    #model_stage2 = torch.compile(model_stage2)
 
 def stage2_generate(model, prompt, batch_size=16):
     codec_ids = codectool.unflatten(prompt, n_quantizer=1)
