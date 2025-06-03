@@ -91,7 +91,7 @@ model = AutoModelForCausalLM.from_pretrained(
 model.to(device)
 model.eval()
 
-if torch.__version__ >= "2.0.0":
+#if torch.__version__ >= "2.0.0":
     #model = torch.compile(model)
 
 codectool = CodecManipulator("xcodec", 0, 1)
@@ -268,7 +268,7 @@ model_stage2 = AutoModelForCausalLM.from_pretrained(
 model_stage2.to(device)
 model_stage2.eval()
 
-if torch.__version__ >= "2.0.0":
+#if torch.__version__ >= "2.0.0":
     #model_stage2 = torch.compile(model_stage2)
 
 def stage2_generate(model, prompt, batch_size=16):
